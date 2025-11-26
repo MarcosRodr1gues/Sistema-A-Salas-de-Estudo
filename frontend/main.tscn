@@ -1,24 +1,48 @@
-[gd_scene load_steps=3 format=3 uid="uid://bgn14jwy8mq0t"]
+[gd_scene load_steps=2 format=3 uid="uid://bgn14jwy8mq0t"]
 
 [ext_resource type="Script" uid="uid://ds20tlmk02via" path="res://main.gd" id="1_ig7tw"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_ig7tw"]
-font_size = 50
-
-[node name="Main" type="Node2D"]
+[node name="Login" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_ig7tw")
 
-[node name="Button" type="Button" parent="."]
-offset_left = 352.0
-offset_top = 408.0
-offset_right = 826.0
-offset_bottom = 485.0
-theme_override_font_sizes/font_size = 50
-text = "Testar Conexão"
+[node name="BtnEntrar" type="Button" parent="."]
+layout_mode = 0
+offset_left = 453.0
+offset_top = 368.0
+offset_right = 660.0
+offset_bottom = 411.0
+text = "ENTRAR"
 
 [node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
-label_settings = SubResource("LabelSettings_ig7tw")
+layout_mode = 0
+offset_left = 476.0
+offset_top = 150.0
+offset_right = 652.0
+offset_bottom = 179.0
+text = "Sistema de Reservas"
+
+[node name="InputEmail" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 386.0
+offset_top = 222.0
+offset_right = 738.0
+offset_bottom = 270.0
+placeholder_text = "Email"
+
+[node name="InputSenha" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 386.0
+offset_top = 287.0
+offset_right = 738.0
+offset_bottom = 335.0
+placeholder_text = "Senha"
+secret = true
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="LabelAviso" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
