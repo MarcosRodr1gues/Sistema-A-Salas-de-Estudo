@@ -21,10 +21,10 @@ O projeto segue a metodologia Scrum, dividido em 5 Sprints de 1 semana.
 ### **Sprint 3 – Funcionalidades Principais (Core)**
 - **Objetivo:** Implementar fluxo de Autenticação e Reservas.
 - **Entregáveis:**
-  - [ ] **Backend:** Criar endpoints `/login` (US01) e `/reservar` (US04).
-  - [ ] **Frontend:** Cena de Login funcional.
-  - [ ] **Frontend:** Grade de horários interativa para realizar reservas.
-  - [ ] **Integração:** Login real e persistência de reservas no banco.
+  - [x] **Backend:** Criar endpoints `/login` (US01) e `/reservar` (US04).
+  - [x] **Frontend:** Cena de Login funcional.
+  - [x] **Frontend:** Grade de horários interativa para realizar reservas.
+  - [x] **Integração:** Login real e persistência de reservas no banco.
 
 ### **Sprint 4 – Integração e Refinamento**
 - **Objetivo:** Concluir fluxo do aluno e Administrativo.
