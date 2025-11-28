@@ -11,6 +11,10 @@ config_version=5
 [application]
 
 config/name="Sistema de Salas"
-run/main_scene="res://main.tscn"
+run/main_scene="uid://bgn14jwy8mq0t"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Global="*res://global.gd"

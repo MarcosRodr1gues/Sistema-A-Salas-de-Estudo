@@ -10,32 +10,21 @@ func _ready():
 	http.request_completed.connect(_on_request_completed)
 
 func _on_btn_entrar_pressed():
-	var email = input_email.text
-	var senha = input_senha.text
-	
-	if email == "" or senha == "":
-		label_aviso.text = "Preencha todos os campos!"
-		return
-
 	label_aviso.text = "Conectando..."
-	
-	# Monta o pacote JSON para enviar
-	var dados = {"email": email, "senha": senha}
+	var dados = {"email": input_email.text, "senha": input_senha.text}
 	var headers = ["Content-Type: application/json"]
-	var json_string = JSON.stringify(dados)
-	
-	# Envia POST para o Python
-	http.request("http://127.0.0.1:5000/login", headers, HTTPClient.METHOD_POST, json_string)
+	http.request("http://127.0.0.1:5000/login", headers, HTTPClient.METHOD_POST, JSON.stringify(dados))
 
 func _on_request_completed(result, response_code, headers, body):
 	if response_code == 200:
 		var json = JSON.parse_string(body.get_string_from_utf8())
 		if json["sucesso"] == true:
-			label_aviso.text = "Sucesso! Bem-vindo " + json["usuario_nome"]
-			# AQUI NO FUTURO VAMOS MUDAR DE CENA
+			label_aviso.text = "Sucesso!"
+			Global.usuario_id = json["usuario_id"]
+			Global.usuario_nome = json["usuario_nome"]
+			# Muda para a tela de reservas
+			get_tree().change_scene_to_file("res://tela_reserva.tscn")
 		else:
 			label_aviso.text = json["mensagem"]
-	elif response_code == 401:
-		label_aviso.text = "Senha incorreta!"
 	else:
-		label_aviso.text = "Erro no servidor: " + str(response_code)
+		label_aviso.text = "Erro: " + str(response_code)
