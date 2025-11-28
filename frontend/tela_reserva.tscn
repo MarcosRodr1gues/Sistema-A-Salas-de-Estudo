@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxabm3hnwt55j"]
+
+[ext_resource type="Script" uid="uid://b0a2p2wmdd03s" path="res://tela_reserva.gd" id="1_ucmms"]
+
+[node name="TelaReserva" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ucmms")
+
+[node name="ContainerPrincipal" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 164.0
+offset_top = 161.0
+offset_right = 973.0
+offset_bottom = 484.0
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="ContainerPrincipal"]
+layout_mode = 2
+text = "Escolha uma Sala"
+
+[node name="BtnSalas" type="OptionButton" parent="ContainerPrincipal"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="ContainerPrincipal"]
+layout_mode = 2
+text = "Escolha o Horário"
+
+[node name="BtnHorario" type="OptionButton" parent="ContainerPrincipal"]
+layout_mode = 2
+
+[node name="BtnReservar" type="Button" parent="ContainerPrincipal"]
+layout_mode = 2
+text = "CONFIRMAR"
+
+[node name="LabelStatus" type="Label" parent="ContainerPrincipal"]
+layout_mode = 2
+text = "Carregando..."
+
+[node name="HTTPSalas" type="HTTPRequest" parent="."]
+
+[node name="HTTPReservar" type="HTTPRequest" parent="."]
