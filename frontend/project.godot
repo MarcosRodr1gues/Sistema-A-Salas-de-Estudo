@@ -18,3 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 Global="*res://global.gd"
+"Transição"="*res://transição.tscn"
+
+[display]
+
+window/stretch/mode="canvas_items"

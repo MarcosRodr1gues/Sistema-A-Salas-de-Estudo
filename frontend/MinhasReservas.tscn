@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3rbiv3lhqh2e"]
+
+[ext_resource type="Script" uid="uid://cp282hejky38c" path="res://minhas_reservas.gd" id="1_4o4jh"]
+[ext_resource type="Texture2D" uid="uid://dc2pmetuspmlc" path="res://Background_Azul.png" id="2_g7jki"]
+[ext_resource type="LabelSettings" uid="uid://cmkgkemsnrm5b" path="res://fonte_branco.tres" id="3_igbvb"]
+
+[node name="MinhasReservas" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_4o4jh")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1153.7778
+offset_bottom = 649.0
+texture = ExtResource("2_g7jki")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 151.0
+offset_right = 479.0
+offset_bottom = 549.0
+theme_override_constants/separation = 25
+
+[node name="LabelTitulo" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "MEUS AGENDAMENTOS"
+label_settings = ExtResource("3_igbvb")
+
+[node name="ListaReservas" type="ItemList" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.18342358, 0.72234744, 0.9498078, 1)
+
+[node name="BtnVoltar" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "VOLTAR"
+
+[node name="LabelStatus" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Carregando..."
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
