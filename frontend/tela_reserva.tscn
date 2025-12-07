@@ -1,23 +1,35 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxabm3hnwt55j"]
+[gd_scene load_steps=6 format=3 uid="uid://cxabm3hnwt55j"]
 
 [ext_resource type="Script" uid="uid://b0a2p2wmdd03s" path="res://tela_reserva.gd" id="1_ucmms"]
+[ext_resource type="Texture2D" uid="uid://dc2pmetuspmlc" path="res://Background_Azul.png" id="2_j44rb"]
+[ext_resource type="LabelSettings" uid="uid://cmkgkemsnrm5b" path="res://fonte_branco.tres" id="3_2a2i5"]
+[ext_resource type="StyleBox" uid="uid://rom1u8xjjkqn" path="res://botão_azul.tres" id="4_4l5sf"]
+[ext_resource type="StyleBox" uid="uid://dlaxhtx3haabq" path="res://botao_sair.tres" id="5_oye1n"]
 
 [node name="TelaReserva" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_ucmms")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1153.7778
+offset_bottom = 649.0
+texture = ExtResource("2_j44rb")
+expand_mode = 1
+
 [node name="ContainerPrincipal" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 164.0
-offset_top = 161.0
-offset_right = 973.0
-offset_bottom = 484.0
+offset_left = 47.0
+offset_top = 184.0
+offset_right = 466.0
+offset_bottom = 507.0
 theme_override_constants/separation = 24
 
 [node name="Label" type="Label" parent="ContainerPrincipal"]
 layout_mode = 2
 text = "Escolha uma Sala"
+label_settings = ExtResource("3_2a2i5")
 
 [node name="BtnSalas" type="OptionButton" parent="ContainerPrincipal"]
 layout_mode = 2
@@ -25,6 +37,7 @@ layout_mode = 2
 [node name="Label2" type="Label" parent="ContainerPrincipal"]
 layout_mode = 2
 text = "Escolha o Horário"
+label_settings = ExtResource("3_2a2i5")
 
 [node name="BtnHorario" type="OptionButton" parent="ContainerPrincipal"]
 layout_mode = 2
@@ -36,6 +49,17 @@ text = "CONFIRMAR"
 [node name="LabelStatus" type="Label" parent="ContainerPrincipal"]
 layout_mode = 2
 text = "Carregando..."
+
+[node name="BtnVerReservas" type="Button" parent="ContainerPrincipal"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("4_4l5sf")
+text = "Ver Minhas Reservas"
+
+[node name="BtnSair" type="Button" parent="ContainerPrincipal"]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("5_oye1n")
+text = "SAIR"
 
 [node name="HTTPSalas" type="HTTPRequest" parent="."]
 

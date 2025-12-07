@@ -36,8 +36,8 @@ with app.app_context():
     
     # Criar usuário de teste se não existir
     if not Usuario.query.filter_by(email="aluno@uerj.br").first():
-        admin = Usuario(nome="Marcos", email="aluno@uerj.br", senha="123")
-        db.session.add(admin)
+        aluno = Usuario(nome="Marcos", email="aluno@uerj.br", senha="123")
+        db.session.add(aluno)
         db.session.commit()
     
     # Criar Salas de teste se não existirem
@@ -51,16 +51,35 @@ with app.app_context():
 
 # --- ROTAS ---
 
-# 1. Login (Mantido da Sprint anterior)
+# 1. Login (ATUALIZADO COM ADMIN)
 @app.route('/login', methods=['POST'])
 def login():
     dados = request.get_json()
-    usuario = Usuario.query.filter_by(email=dados.get('email')).first()
-    if usuario and usuario.senha == dados.get('senha'):
-        return jsonify({"sucesso": True, "usuario_id": usuario.id, "usuario_nome": usuario.nome}), 200
+    email_recebido = dados.get('email')
+    senha_recebida = dados.get('senha')
+
+    # --- LÓGICA DO ADMIN ---
+    if email_recebido == "admin@uerj.br" and senha_recebida == "123":
+        return jsonify({
+            "sucesso": True, 
+            "usuario_id": 9999, 
+            "usuario_nome": "Administrador",
+            "is_admin": True # <--- Flag importante para o Godot
+        }), 200
+
+    # --- LÓGICA DO ALUNO NORMAL ---
+    usuario = Usuario.query.filter_by(email=email_recebido).first()
+    if usuario and usuario.senha == senha_recebida:
+        return jsonify({
+            "sucesso": True, 
+            "usuario_id": usuario.id, 
+            "usuario_nome": usuario.nome,
+            "is_admin": False
+        }), 200
+    
     return jsonify({"sucesso": False, "mensagem": "Dados incorretos"}), 401
 
-# 2. Listar Salas (Para o Godot saber o que mostrar)
+# 2. Listar Salas
 @app.route('/salas', methods=['GET'])
 def get_salas():
     salas = Sala.query.all()
@@ -70,7 +89,6 @@ def get_salas():
 # 3. Listar Horários Ocupados de uma Sala
 @app.route('/reservas/<int:sala_id>', methods=['GET'])
 def get_reservas(sala_id):
-    # Retorna lista de horários já ocupados (ex: [10, 14, 16])
     reservas = Reserva.query.filter_by(sala_id=sala_id).all()
     ocupados = [r.horario for r in reservas]
     return jsonify(ocupados)
@@ -83,7 +101,6 @@ def criar_reserva():
     sid = dados.get('sala_id')
     hora = dados.get('horario')
 
-    # Verifica se já existe reserva naquele horário
     conflito = Reserva.query.filter_by(sala_id=sid, horario=hora).first()
     if conflito:
         return jsonify({"sucesso": False, "mensagem": "Horário já ocupado!"}), 409
@@ -93,6 +110,62 @@ def criar_reserva():
     db.session.commit()
     
     return jsonify({"sucesso": True, "mensagem": "Reserva confirmada!"}), 201
+
+# 5. Listar Minhas Reservas (Aluno)
+@app.route('/minhas_reservas/<int:usuario_id>', methods=['GET'])
+def minhas_reservas(usuario_id):
+    reservas = Reserva.query.filter_by(usuario_id=usuario_id).all()
+    
+    lista_retorno = []
+    for r in reservas:
+        sala = Sala.query.get(r.sala_id)
+        item = {
+            "id": r.id,
+            "sala_nome": sala.nome,
+            "horario": r.horario
+        }
+        lista_retorno.append(item)
+        
+    return jsonify(lista_retorno)
+
+# --- NOVAS ROTAS DE ADMIN ---
+
+# 6. Listar TODAS as reservas (Para o painel do Admin)
+@app.route('/admin/todas_reservas', methods=['GET'])
+def get_todas_reservas():
+    # Faz uma query cruzando as tabelas (JOIN)
+    # Queremos: Dados da Reserva + Nome da Sala + Nome do Usuário
+    
+    resultados = db.session.query(Reserva, Sala, Usuario)\
+        .join(Sala, Reserva.sala_id == Sala.id)\
+        .join(Usuario, Reserva.usuario_id == Usuario.id)\
+        .all()
+    
+    lista_completa = []
+    
+    for r, s, u in resultados:
+        item = {
+            "reserva_id": r.id,
+            "horario": r.horario,
+            "sala_nome": s.nome,
+            "usuario_nome": u.nome,
+            "usuario_email": u.email
+        }
+        lista_completa.append(item)
+
+    return jsonify(lista_completa)
+
+# 7. Excluir Reserva (Admin)
+@app.route('/admin/excluir_reserva/<int:reserva_id>', methods=['DELETE']) # Usamos DELETE ou POST
+def excluir_reserva(reserva_id):
+    reserva = Reserva.query.get(reserva_id)
+    
+    if reserva:
+        db.session.delete(reserva)
+        db.session.commit()
+        return jsonify({"sucesso": True, "mensagem": "Reserva removida com sucesso"})
+    else:
+        return jsonify({"sucesso": False, "mensagem": "Reserva não encontrada"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

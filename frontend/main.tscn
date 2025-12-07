@@ -1,48 +1,139 @@
-[gd_scene load_steps=2 format=3 uid="uid://bgn14jwy8mq0t"]
+[gd_scene load_steps=7 format=3 uid="uid://bgn14jwy8mq0t"]
 
 [ext_resource type="Script" uid="uid://ds20tlmk02via" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://b2ldt35e2isyu" path="res://Background_white.png" id="2_0xm2m"]
+[ext_resource type="StyleBox" uid="uid://dv72qei44wrvj" path="res://botão_azulescuro.tres" id="3_1bvp3"]
+[ext_resource type="StyleBox" uid="uid://rom1u8xjjkqn" path="res://botão_azul.tres" id="4_lquwl"]
+
+[sub_resource type="FontFile" id="FontFile_7mycd"]
+cache/0/26/0/ascent = 0.0
+cache/0/26/0/descent = 0.0
+cache/0/26/0/underline_position = 0.0
+cache/0/26/0/underline_thickness = 0.0
+cache/0/26/0/scale = 1.0
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/27/0/ascent = 0.0
+cache/0/27/0/descent = 0.0
+cache/0/27/0/underline_position = 0.0
+cache/0/27/0/underline_thickness = 0.0
+cache/0/27/0/scale = 1.0
+cache/0/28/0/ascent = 0.0
+cache/0/28/0/descent = 0.0
+cache/0/28/0/underline_position = 0.0
+cache/0/28/0/underline_thickness = 0.0
+cache/0/28/0/scale = 1.0
+cache/0/29/0/ascent = 0.0
+cache/0/29/0/descent = 0.0
+cache/0/29/0/underline_position = 0.0
+cache/0/29/0/underline_thickness = 0.0
+cache/0/29/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/31/0/ascent = 0.0
+cache/0/31/0/descent = 0.0
+cache/0/31/0/underline_position = 0.0
+cache/0/31/0/underline_thickness = 0.0
+cache/0/31/0/scale = 1.0
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
+cache/0/33/0/ascent = 0.0
+cache/0/33/0/descent = 0.0
+cache/0/33/0/underline_position = 0.0
+cache/0/33/0/underline_thickness = 0.0
+cache/0/33/0/scale = 1.0
+cache/0/34/0/ascent = 0.0
+cache/0/34/0/descent = 0.0
+cache/0/34/0/underline_position = 0.0
+cache/0/34/0/underline_thickness = 0.0
+cache/0/34/0/scale = 1.0
+cache/0/35/0/ascent = 0.0
+cache/0/35/0/descent = 0.0
+cache/0/35/0/underline_position = 0.0
+cache/0/35/0/underline_thickness = 0.0
+cache/0/35/0/scale = 1.0
+cache/0/36/0/ascent = 0.0
+cache/0/36/0/descent = 0.0
+cache/0/36/0/underline_position = 0.0
+cache/0/36/0/underline_thickness = 0.0
+cache/0/36/0/scale = 1.0
+cache/0/37/0/ascent = 0.0
+cache/0/37/0/descent = 0.0
+cache/0/37/0/underline_position = 0.0
+cache/0/37/0/underline_thickness = 0.0
+cache/0/37/0/scale = 1.0
+cache/0/38/0/ascent = 0.0
+cache/0/38/0/descent = 0.0
+cache/0/38/0/underline_position = 0.0
+cache/0/38/0/underline_thickness = 0.0
+cache/0/38/0/scale = 1.0
+cache/0/39/0/ascent = 0.0
+cache/0/39/0/descent = 0.0
+cache/0/39/0/underline_position = 0.0
+cache/0/39/0/underline_thickness = 0.0
+cache/0/39/0/scale = 1.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_272bh"]
+line_spacing = 3.245
+font = SubResource("FontFile_7mycd")
+font_size = 39
+font_color = Color(0, 0.3019608, 0.70980394, 1)
 
 [node name="Login" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_ig7tw")
 
-[node name="BtnEntrar" type="Button" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 453.0
-offset_top = 368.0
-offset_right = 660.0
-offset_bottom = 411.0
-text = "ENTRAR"
+offset_right = 1153.7778
+offset_bottom = 649.0
+texture = ExtResource("2_0xm2m")
+expand_mode = 1
 
-[node name="Label" type="Label" parent="."]
+[node name="ContainerPrincipal" type="VBoxContainer" parent="TextureRect"]
 layout_mode = 0
-offset_left = 476.0
-offset_top = 150.0
-offset_right = 652.0
-offset_bottom = 179.0
-text = "Sistema de Reservas"
+offset_left = 47.0
+offset_top = 184.0
+offset_right = 466.0
+offset_bottom = 507.0
+theme_override_constants/separation = 24
 
-[node name="InputEmail" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 386.0
-offset_top = 222.0
-offset_right = 738.0
-offset_bottom = 270.0
+[node name="Label" type="Label" parent="TextureRect/ContainerPrincipal"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.3019608, 0.70980394, 1)
+text = "LOGIN"
+label_settings = SubResource("LabelSettings_272bh")
+
+[node name="InputEmail" type="LineEdit" parent="TextureRect/ContainerPrincipal"]
+custom_minimum_size = Vector2(4.025, 40)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("3_1bvp3")
 placeholder_text = "Email"
 
-[node name="InputSenha" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 386.0
-offset_top = 287.0
-offset_right = 738.0
-offset_bottom = 335.0
+[node name="InputSenha" type="LineEdit" parent="TextureRect/ContainerPrincipal"]
+custom_minimum_size = Vector2(200, 40)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("3_1bvp3")
 placeholder_text = "Senha"
 secret = true
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
+[node name="LabelAviso" type="Label" parent="TextureRect/ContainerPrincipal"]
+layout_mode = 2
 
-[node name="LabelAviso" type="Label" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="HTTPRequest" type="HTTPRequest" parent="TextureRect/ContainerPrincipal"]
+
+[node name="BtnEntrar" type="Button" parent="TextureRect/ContainerPrincipal"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("4_lquwl")
+text = "ENTRAR"
