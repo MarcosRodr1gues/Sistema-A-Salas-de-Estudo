@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://d3rbiv3lhqh2e"]
+[gd_scene load_steps=5 format=3 uid="uid://d3rbiv3lhqh2e"]
 
 [ext_resource type="Script" uid="uid://cp282hejky38c" path="res://minhas_reservas.gd" id="1_4o4jh"]
 [ext_resource type="Texture2D" uid="uid://dc2pmetuspmlc" path="res://Background_Azul.png" id="2_g7jki"]
 [ext_resource type="LabelSettings" uid="uid://cmkgkemsnrm5b" path="res://fonte_branco.tres" id="3_igbvb"]
+[ext_resource type="StyleBox" uid="uid://csennggsc64dx" path="res://BTN_EXCLUIR.tres" id="4_igbvb"]
 
 [node name="MinhasReservas" type="Control"]
 layout_mode = 3
@@ -34,12 +35,18 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.18342358, 0.72234744, 0.9498078, 1)
 
-[node name="BtnVoltar" type="Button" parent="VBoxContainer"]
+[node name="BtnCancelar" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-text = "VOLTAR"
+theme_override_styles/normal = ExtResource("4_igbvb")
+text = "CANCELAR RESERVA"
 
 [node name="LabelStatus" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Carregando..."
+
+[node name="BtnVoltar" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "VOLTAR"
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
