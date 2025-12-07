@@ -29,14 +29,14 @@ O projeto segue a metodologia Scrum, dividido em 5 Sprints de 1 semana.
 ### **Sprint 4 – Integração e Refinamento**
 - **Objetivo:** Concluir fluxo do aluno e Administrativo.
 - **Entregáveis:**
-  - [ ] **Backend:** Endpoints `/minhas-reservas` e painel Admin.
-  - [ ] **Frontend:** Tela "Minhas Reservas" (US05).
-  - [ ] **Frontend:** (Se houver tempo) Tela de Admin para gerenciar salas.
-  - [ ] **Design:** Polimento visual da interface.
+  - [x] **Backend:** Endpoints `/minhas-reservas` e painel Admin.
+  - [x] **Frontend:** Tela "Minhas Reservas" (US05).
+  - [x] **Frontend:** (Se houver tempo) Tela de Admin para gerenciar salas.
+  - [x] **Design:** Polimento visual da interface.
 
 ### **Sprint 5 – Testes e Entrega Final**
 - **Objetivo:** Garantir qualidade e entregar o produto.
 - **Entregáveis:**
-  - [ ] Testes ponta-a-ponta (Segurança e Fluxo).
-  - [ ] Manual do usuário (Como rodar Server + Client).
+  - [x] Testes ponta-a-ponta (Segurança e Fluxo).
+  - [x] Manual do usuário (Como rodar Server + Client).
   - [ ] Apresentação Final.
