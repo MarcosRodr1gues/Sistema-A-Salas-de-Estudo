@@ -1,16 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://c1vllgi6mt1rl"]
+[gd_scene load_steps=9 format=3 uid="uid://c1vllgi6mt1rl"]
 
 [ext_resource type="Script" uid="uid://c5eurkx32tyrl" path="res://painel_admin.gd" id="1_8sy04"]
 [ext_resource type="Texture2D" uid="uid://bmq16fiqww0lx" path="res://Background_admin.png" id="2_3n8xv"]
 [ext_resource type="LabelSettings" uid="uid://cmkgkemsnrm5b" path="res://fonte_branco.tres" id="3_3j5ea"]
 [ext_resource type="StyleBox" uid="uid://dlaxhtx3haabq" path="res://botao_sair.tres" id="4_3j5ea"]
+[ext_resource type="StyleBox" uid="uid://csennggsc64dx" path="res://BTN_EXCLUIR.tres" id="4_4atof"]
+[ext_resource type="StyleBox" uid="uid://rom1u8xjjkqn" path="res://botão_azul.tres" id="6_8ciit"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4atof"]
-bg_color = Color(0.86, 0.1634, 0.25627995, 0.7764706)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4atof"]
+
+[sub_resource type="Theme" id="Theme_4atof"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -30,33 +29,98 @@ offset_bottom = 649.0
 texture = ExtResource("2_3n8xv")
 expand_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 42.0
-offset_top = 146.0
-offset_right = 407.0
-offset_bottom = 595.0
-theme_override_constants/separation = 17
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 41.0
+offset_top = 131.25
+offset_right = -579.0
+offset_bottom = -7.75
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_4atof")
+current_tab = 1
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Gerenciar Reservas" type="VBoxContainer" parent="TabContainer"]
+visible = false
 layout_mode = 2
-text = "PAINEL DO ADMINISTRADOR"
+theme = SubResource("Theme_4atof")
+theme_override_constants/separation = 10
+metadata/_tab_index = 0
+
+[node name="HSeparator2" type="HSeparator" parent="TabContainer/Gerenciar Reservas"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="TabContainer/Gerenciar Reservas"]
+layout_mode = 2
+text = "Reservas Cadastradas"
 label_settings = ExtResource("3_3j5ea")
 
-[node name="ItemList" type="ItemList" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 300)
+[node name="ItemList" type="ItemList" parent="TabContainer/Gerenciar Reservas"]
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
-[node name="BtnExcluir" type="Button" parent="VBoxContainer"]
+[node name="BtnExcluir" type="Button" parent="TabContainer/Gerenciar Reservas"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_4atof")
+theme_override_styles/normal = ExtResource("4_4atof")
 text = "EXCLUIR"
 
-[node name="BtnSair" type="Button" parent="VBoxContainer"]
+[node name="BtnSair" type="Button" parent="TabContainer/Gerenciar Reservas"]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("4_3j5ea")
 text = "SAIR"
 
-[node name="LabelStatus" type="Label" parent="VBoxContainer"]
+[node name="LabelStatus" type="Label" parent="TabContainer/Gerenciar Reservas"]
 layout_mode = 2
+
+[node name="Gerenciar Salas" type="VBoxContainer" parent="TabContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+metadata/_tab_index = 1
+
+[node name="HSeparator2" type="HSeparator" parent="TabContainer/Gerenciar Salas"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Label3" type="Label" parent="TabContainer/Gerenciar Salas"]
+layout_mode = 2
+text = "Salas Existentes"
+label_settings = ExtResource("3_3j5ea")
+
+[node name="ListaSalas" type="ItemList" parent="TabContainer/Gerenciar Salas"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+
+[node name="BtnExcluirSala" type="Button" parent="TabContainer/Gerenciar Salas"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("4_4atof")
+text = "EXCLUIR SALA"
+
+[node name="HSeparator" type="HSeparator" parent="TabContainer/Gerenciar Salas"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Label" type="Label" parent="TabContainer/Gerenciar Salas"]
+layout_mode = 2
+text = "Adicionar Nova Sala"
+label_settings = ExtResource("3_3j5ea")
+
+[node name="InputNomeSala" type="LineEdit" parent="TabContainer/Gerenciar Salas"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+
+[node name="BtnAdicionarSala" type="Button" parent="TabContainer/Gerenciar Salas"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("6_8ciit")
+text = "CRIAR SALA"
+
+[node name="LabelStatusSala" type="Label" parent="TabContainer/Gerenciar Salas"]
+layout_mode = 2
+
+[node name="HTTPSalas" type="HTTPRequest" parent="."]

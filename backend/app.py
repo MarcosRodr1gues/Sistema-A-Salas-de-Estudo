@@ -1,14 +1,27 @@
+import sys
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-import os
+
+# --- O TRUQUE DO DIRETÓRIO ---
+if getattr(sys, 'frozen', False):
+    # Se for executável .exe
+    pasta_atual = os.path.dirname(sys.executable)
+else:
+    # Se for script .py
+    pasta_atual = os.path.dirname(os.path.abspath(__file__))
+
+# Muda o diretório de trabalho para a pasta do arquivo
+os.chdir(pasta_atual)
+
+print(f"--- RODANDO NA PASTA: {os.getcwd()} ---")
 
 app = Flask(__name__)
 CORS(app)
 
-# --- Configuração do Banco ---
-basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'instance', 'banco.db')
+# Como já mudamos de pasta com o chdir, podemos usar caminho relativo simples!
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -64,7 +77,7 @@ def login():
             "sucesso": True, 
             "usuario_id": 9999, 
             "usuario_nome": "Administrador",
-            "is_admin": True # <--- Flag importante para o Godot
+            "is_admin": True 
         }), 200
 
     # --- LÓGICA DO ALUNO NORMAL ---
@@ -119,9 +132,12 @@ def minhas_reservas(usuario_id):
     lista_retorno = []
     for r in reservas:
         sala = Sala.query.get(r.sala_id)
+        # Proteção caso a sala tenha sido deletada manualmente sem limpar reservas
+        nome_sala = sala.nome if sala else "Sala Removida"
+        
         item = {
             "id": r.id,
-            "sala_nome": sala.nome,
+            "sala_nome": nome_sala,
             "horario": r.horario
         }
         lista_retorno.append(item)
@@ -130,12 +146,10 @@ def minhas_reservas(usuario_id):
 
 # --- NOVAS ROTAS DE ADMIN ---
 
-# 6. Listar TODAS as reservas (Para o painel do Admin)
+# 6. Listar TODAS as reservas
 @app.route('/admin/todas_reservas', methods=['GET'])
 def get_todas_reservas():
     # Faz uma query cruzando as tabelas (JOIN)
-    # Queremos: Dados da Reserva + Nome da Sala + Nome do Usuário
-    
     resultados = db.session.query(Reserva, Sala, Usuario)\
         .join(Sala, Reserva.sala_id == Sala.id)\
         .join(Usuario, Reserva.usuario_id == Usuario.id)\
@@ -156,7 +170,7 @@ def get_todas_reservas():
     return jsonify(lista_completa)
 
 # 7. Excluir Reserva (Admin)
-@app.route('/admin/excluir_reserva/<int:reserva_id>', methods=['DELETE']) # Usamos DELETE ou POST
+@app.route('/admin/excluir_reserva/<int:reserva_id>', methods=['DELETE'])
 def excluir_reserva(reserva_id):
     reserva = Reserva.query.get(reserva_id)
     
@@ -167,5 +181,57 @@ def excluir_reserva(reserva_id):
     else:
         return jsonify({"sucesso": False, "mensagem": "Reserva não encontrada"}), 404
 
+# 8. Excluir Minha Reserva (Aluno)
+@app.route('/minhas_reservas/excluir/<int:reserva_id>', methods=['DELETE'])
+def excluir_minha_reserva(reserva_id):
+    reserva = Reserva.query.get(reserva_id)
+    
+    if reserva:
+        db.session.delete(reserva)
+        db.session.commit()
+        return jsonify({"sucesso": True, "mensagem": "Reserva cancelada com sucesso"})
+    else:
+        return jsonify({"sucesso": False, "mensagem": "Reserva não encontrada"}), 404
+
+# --- NOVAS ROTAS PARA GERENCIAR SALAS (USO FUTURO) ---
+
+# 9. Criar Sala (Admin)
+@app.route('/admin/salas', methods=['POST'])
+def criar_sala():
+    dados = request.get_json()
+    nome_sala = dados.get('nome')
+    
+    if not nome_sala:
+         return jsonify({"sucesso": False, "mensagem": "Nome da sala é obrigatório"}), 400
+
+    nova_sala = Sala(nome=nome_sala)
+    db.session.add(nova_sala)
+    db.session.commit()
+    return jsonify({"sucesso": True, "mensagem": "Sala criada com sucesso!"}), 201
+
+# 10. Excluir Sala (Admin)
+@app.route('/admin/salas/<int:sala_id>', methods=['DELETE'])
+def deletar_sala(sala_id):
+    sala = Sala.query.get(sala_id)
+    
+    if not sala:
+        return jsonify({"sucesso": False, "mensagem": "Sala não encontrada"}), 404
+
+    # IMPORTANTE: Primeiro excluímos todas as reservas desta sala
+    # para não deixar "lixo" no banco de dados.
+    Reserva.query.filter_by(sala_id=sala_id).delete()
+    
+    # Agora excluímos a sala
+    db.session.delete(sala)
+    db.session.commit()
+    return jsonify({"sucesso": True, "mensagem": "Sala e suas reservas foram removidas!"}), 200
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    # O try/except ajuda a manter a janela aberta em caso de erro no .exe
+    try:
+        print("Iniciando servidor...")
+        app.run(debug=True, port=5000)
+    except Exception as e:
+        print("\nERRO CRÍTICO NO SERVIDOR:")
+        print(e)
+        input("Pressione ENTER para sair...")
